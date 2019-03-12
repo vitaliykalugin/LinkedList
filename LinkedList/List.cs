@@ -88,8 +88,27 @@ namespace LinkedList
             Head = Head.Next;
             count--;
         }
-
-
+        public void DeleteByIndex(int p)
+        {
+            if(p == 0)
+            {
+                DeleteHead();
+            }
+            else
+            {
+                Node prev = Head;
+                Node n = Head.Next;
+                while(p > 1)
+                {
+                    prev = n;
+                    n = n.Next;
+                    p--;
+                }
+                prev.Next = n.Next;
+            }
+            count--;
+        }
+         
         public void Print()
         {
             Node p = Head;

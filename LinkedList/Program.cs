@@ -10,10 +10,8 @@ namespace LinkedList
     {
         static void Main(string[] args)
         {
-            List list = new List();
-            //list.AddFirst(1);
-            //list.AddFirst(1);
-            list.AddLast(5);
+            List list = new List(1,2,3,4,5);
+            list.DeleteByIndex(4);
             list.Print();
 
             Console.Read();
