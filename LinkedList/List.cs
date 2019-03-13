@@ -94,6 +94,10 @@ namespace LinkedList
             {
                 DeleteHead();
             }
+            else if(p > count - 1 || p < 0)
+            {
+                return;
+            }
             else
             {
                 Node prev = Head;
@@ -108,7 +112,27 @@ namespace LinkedList
             }
             count--;
         }
-         
+        
+        public List GetCopy()
+        {
+            List newList = new List();
+            Node p = Head;
+            Node h = new Node();
+            newList.Head = h;
+            while(p != null)
+            {
+                h.Value = p.Value;
+                p = p.Next;
+                if(p!= null)
+                {
+                    h.Next = new Node();
+                    h = h.Next;
+                }                
+            }
+            newList.count = count;
+            return newList;
+        }
+
         public void Print()
         {
             Node p = Head;
