@@ -6,10 +6,42 @@ using System.Threading.Tasks;
 
 namespace LinkedList
 {
-    class List
+    public class List
     {
         private int count = 0;
+        public int Count
+        {
+            get
+            {
+                return count;
+            }
+            private set
+            {
+                if(value < 0)
+                {
+                    return;
+                }
+                else
+                {
+                    count = value;
+                }
+            }
+        }
         public Node Head;
+
+        public Node this[int index]
+        {
+            get
+            {
+                Node p = Head;
+                while(index > 0)
+                {
+                    p = p.Next;
+                    index--;
+                }
+                return p;
+            }
+        }
 
         public List() {
             
@@ -19,7 +51,7 @@ namespace LinkedList
         {
             Head = new Node();
             CreateListNodes(Head, values, 0);
-            count = values.Length;                  
+            Count = values.Length;                  
         }
         private void CreateListNodes(Node n, int[] values, int i)
         {
@@ -43,25 +75,59 @@ namespace LinkedList
                 return false;
             }
         }
-        public int GetSize()
+        public bool Search(int value)
         {
-            return count;
+            return SearchInList(Head, value);
+        }
+        private bool SearchInList(Node p, int value)
+        {
+            if(p == null)
+            {
+                return false;
+            }
+            else if(p.Value == value)
+            {
+                return true;
+            }
+            return SearchInList(p.Next, value);
+        }
+
+        public bool ListEqual(List other)
+        {
+            if(Count != other.Count)
+            {
+                return false;
+            }
+            else
+            {
+                Node p = Head;
+                Node h = other.Head;
+                while(p != null)
+                {
+                    if(p.Value != h.Value)
+                    {
+                        return false;
+                    }
+                    p = p.Next;
+                    h = h.Next;
+                }
+                return true;
+            }
         }
         
         public void AddFirst(int value)
         {
-            if(Head == null)
+            if(IsEmpty())
             {
                 Head = new Node(value);
-                count++;
             }
             else
             {
                 Node p = Head;
                 Head = new Node(value);
                 Head.Next = p;
-                count++;
             }
+            Count++;
             
         }
         public void AddLast(int value)
@@ -79,14 +145,22 @@ namespace LinkedList
                 }
                 p.Next = new Node(value);
             }
-            count++;
+            Count++;
             
         }
 
         public void DeleteHead()
         {
-            Head = Head.Next;
-            count--;
+            if(Count >= 2)
+            {
+                Head = Head.Next;
+                Count--;
+            }
+            else
+            {
+                return;
+            }
+ 
         }
         public void DeleteByIndex(int p)
         {
@@ -94,7 +168,7 @@ namespace LinkedList
             {
                 DeleteHead();
             }
-            else if(p > count - 1 || p < 0)
+            else if(p > Count - 1 || p < 0)
             {
                 return;
             }
@@ -110,7 +184,7 @@ namespace LinkedList
                 }
                 prev.Next = n.Next;
             }
-            count--;
+            Count--;
         }
         
         public List GetCopy()
@@ -129,20 +203,10 @@ namespace LinkedList
                     h = h.Next;
                 }                
             }
-            newList.count = count;
+            newList.Count = Count;
             return newList;
         }
 
-        public void Print()
-        {
-            Node p = Head;
-            while(p != null)
-            {
-                Console.Write(p.Value + "\t");
-                p = p.Next;
-            }
-
-        }
 
     }
 }

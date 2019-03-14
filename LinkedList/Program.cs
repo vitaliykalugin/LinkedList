@@ -11,11 +11,10 @@ namespace LinkedList
         static void Main(string[] args)
         {
             List list = new List(1,2,3,4,5);
-            list.DeleteByIndex(0);
-
-            List newList = list.GetCopy();
-            newList.Print();
-
+            for(int i = 0; i < list.Count; i++)
+            {
+                Console.Write($"{list[i].Value}\t");
+            }
             Console.Read();
         }
     }
