@@ -50,16 +50,16 @@ namespace LinkedList
         public List(params int[] values)
         {
             Head = new Node();
-            CreateListNodes(Head, values, 0);
+            ListRecursive(Head, values, 0);
             Count = values.Length;                  
         }
-        private void CreateListNodes(Node n, int[] values, int i)
+        private void ListRecursive(Node n, int[] values, int i)
         {
             n.Value = values[i];
             if (i != values.Length - 1)
             {
                 n.Next = new Node();
-                CreateListNodes(n.Next, values, i + 1);
+                ListRecursive(n.Next, values, i + 1);
             }
 
         }
@@ -75,33 +75,33 @@ namespace LinkedList
                 return false;
             }
         }
-        public bool Search(int value)
+        public int IndexOf(int value)
         {
-            return SearchInList(Head, value);
+            return IndexOfRecursive(Head, value, 0);
         }
-        private bool SearchInList(Node p, int value)
+        private int IndexOfRecursive(Node p, int value, int index)
         {
             if(p == null)
             {
-                return false;
+                return -1;
             }
             else if(p.Value == value)
             {
-                return true;
+                return index;
             }
-            return SearchInList(p.Next, value);
+            return IndexOfRecursive(p.Next, value, ++index);
         }
 
-        public bool ListEqual(List other)
+        public override bool Equals(object other)
         {
-            if(Count != other.Count)
+            if(other == null)
             {
                 return false;
             }
             else
             {
                 Node p = Head;
-                Node h = other.Head;
+                Node h = ((List)other).Head;
                 while(p != null)
                 {
                     if(p.Value != h.Value)
@@ -114,7 +114,11 @@ namespace LinkedList
                 return true;
             }
         }
-        
+        public override int GetHashCode()
+        {
+            return new { Count, Head}.GetHashCode();
+        }
+
         public void AddFirst(int value)
         {
             if(IsEmpty())
@@ -186,6 +190,7 @@ namespace LinkedList
             }
             Count--;
         }
+
         
         public List GetCopy()
         {
@@ -206,7 +211,6 @@ namespace LinkedList
             newList.Count = Count;
             return newList;
         }
-
 
     }
 }
