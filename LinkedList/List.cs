@@ -27,19 +27,27 @@ namespace LinkedList
                 }
             }
         }
-        public Node Head;
+        private Node Head { get; set; }
 
         public Node this[int index]
         {
             get
             {
-                Node p = Head;
-                while(index > 0)
+                if(index > Count - 1)
                 {
-                    p = p.Next;
-                    index--;
+                    return null;
                 }
-                return p;
+                else
+                {
+                    Node p = Head;
+                    while (index > 0)
+                    {
+                        p = p.Next;
+                        index--;
+                    }
+                    return p;
+                }
+                
             }
         }
 
@@ -116,7 +124,7 @@ namespace LinkedList
         }
         public override int GetHashCode()
         {
-            return new { Count, Head}.GetHashCode();
+            return new { Count, Head }.GetHashCode();
         }
 
         public void AddFirst(int value)
@@ -128,8 +136,7 @@ namespace LinkedList
             else
             {
                 Node p = Head;
-                Head = new Node(value);
-                Head.Next = p;
+                Head = new Node(value) { Next = p };
             }
             Count++;
             
@@ -155,13 +162,18 @@ namespace LinkedList
 
         public void DeleteHead()
         {
-            if(Count >= 2)
+            if (IsEmpty())
+            {
+                return;
+            }
+            else if(Count >= 2)
             {
                 Head = Head.Next;
                 Count--;
             }
             else
             {
+                Head = null;
                 return;
             }
  
@@ -187,8 +199,9 @@ namespace LinkedList
                     p--;
                 }
                 prev.Next = n.Next;
+                Count--;
             }
-            Count--;
+            
         }
 
         
